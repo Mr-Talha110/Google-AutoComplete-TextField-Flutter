@@ -15,7 +15,7 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
   ItemClick? itemClick;
   GetPlaceDetailswWithLatLng? getPlaceDetailWithLatLng;
   bool isLatLngRequired = true;
-
+  final Function(String)? onChanged;
   TextStyle textStyle;
   String googleAPIKey;
   int debounceTime = 600;
@@ -54,6 +54,7 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
       this.countries,
       this.getPlaceDetailWithLatLng,
       this.itemBuilder,
+      this.onChanged,
       this.boxDecoration,
       this.isCrossBtnShown = true,
       this.seperatedBuilder,
@@ -126,6 +127,9 @@ class _GooglePlaceAutoCompleteTextFieldState
                   return widget.validator?.call(inputString, context);
                 },
                 onChanged: (string) {
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(string);
+                  }
                   subject.add(string);
                   if (widget.isCrossBtnShown) {
                     isCrossBtn = string.isNotEmpty ? true : false;
