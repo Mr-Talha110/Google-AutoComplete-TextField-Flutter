@@ -1,12 +1,11 @@
 library google_places_flutter;
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_places_flutter/model/place_details.dart';
 import 'package:google_places_flutter/model/place_type.dart';
 import 'package:google_places_flutter/model/prediction.dart';
-
-import 'package:dio/dio.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'DioErrorHandler.dart';
@@ -112,16 +111,16 @@ class _GooglePlaceAutoCompleteTextFieldState
           children: [
             Expanded(
               child: TextFormField(
+                onTapOutside: (event) => removeOverlay(),
                 decoration: widget.inputDecoration,
                 style: widget.textStyle,
                 controller: widget.textEditingController,
                 focusNode: widget.focusNode ?? FocusNode(),
                 textInputAction: widget.textInputAction ?? TextInputAction.done,
                 onFieldSubmitted: (value) {
-                  if(widget.formSubmitCallback!=null){
+                  if (widget.formSubmitCallback != null) {
                     widget.formSubmitCallback!();
                   }
-
                 },
                 validator: (inputString) {
                   return widget.validator?.call(inputString, context);
@@ -265,7 +264,7 @@ class _GooglePlaceAutoCompleteTextFieldState
                             widget.itemClick!(selectedData);
 
                             if (widget.isLatLngRequired) {
-                             await getPlaceDetailsFromPlaceId(selectedData);
+                              await getPlaceDetailsFromPlaceId(selectedData);
                             }
                             removeOverlay();
                           }
@@ -282,6 +281,7 @@ class _GooglePlaceAutoCompleteTextFieldState
                 ),
               ));
     }
+    return null;
   }
 
   removeOverlay() {
