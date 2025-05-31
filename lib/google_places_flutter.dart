@@ -253,39 +253,35 @@ class _GooglePlaceAutoCompleteTextFieldState
                   showWhenUnlinked: false,
                   link: this._layerLink,
                   offset: Offset(0.0, size.height + 5.0),
-                  child: TapRegion(
-                    onTapOutside: (event) => removeOverlay(),
-                    child: Material(
-                        child: ListView.separated(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      itemCount: alPredictions.length,
-                      separatorBuilder: (context, pos) =>
-                          widget.seperatedBuilder ?? SizedBox(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () async {
-                            var selectedData = alPredictions[index];
-                            if (index < alPredictions.length) {
-                              widget.itemClick!(selectedData);
+                  child: Material(
+                      child: ListView.separated(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    itemCount: alPredictions.length,
+                    separatorBuilder: (context, pos) =>
+                        widget.seperatedBuilder ?? SizedBox(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () async {
+                          var selectedData = alPredictions[index];
+                          if (index < alPredictions.length) {
+                            widget.itemClick!(selectedData);
 
-                              if (widget.isLatLngRequired) {
-                                await getPlaceDetailsFromPlaceId(selectedData);
-                              }
-                              removeOverlay();
+                            if (widget.isLatLngRequired) {
+                              await getPlaceDetailsFromPlaceId(selectedData);
                             }
-                          },
-                          child: widget.itemBuilder != null
-                              ? widget.itemBuilder!(
-                                  context, index, alPredictions[index])
-                              : Container(
-                                  padding: EdgeInsets.all(10),
-                                  child:
-                                      Text(alPredictions[index].description!)),
-                        );
-                      },
-                    )),
-                  ),
+                            removeOverlay();
+                          }
+                        },
+                        child: widget.itemBuilder != null
+                            ? widget.itemBuilder!(
+                                context, index, alPredictions[index])
+                            : Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(alPredictions[index].description!)),
+                      );
+                    },
+                  )),
                 ),
               ));
     }
